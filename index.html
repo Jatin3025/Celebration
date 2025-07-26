@@ -1,0 +1,116 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Birthday Calendar</title>
+  <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
+  <style>
+    .tooltip {
+      position: absolute;
+      background-color: white;
+      color: black;
+      padding: 6px 10px;
+      border-radius: 8px;
+      box-shadow: 0 2px 10px rgba(0,0,0,0.15);
+      font-size: 0.85rem;
+      display: none;
+      z-index: 50;
+    }
+    .day:hover .tooltip {
+      display: block;
+    }
+  </style>
+</head>
+<body class="bg-gradient-to-br from-pink-100 to-blue-100 min-h-screen p-6 font-sans">
+  <h1 class="text-4xl font-bold text-center text-pink-800 mb-8">🎉 Birthday Calendar</h1>
+  <div id="calendar" class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6"></div>
+
+  <script>
+    const birthdays = {
+      "2004-01-05": ["Manan Bhargava"],
+      "2000-11-29": ["Ishika Sunam"],
+      "2004-03-01": ["Nadia Kalra"],
+      "2003-05-09": ["Prashant Thakur"],
+      "2002-03-23": ["Neha Singh"],
+      "2002-07-24": ["Prachi Kumari"],
+      "2002-03-28": ["Pavithra N"],
+      "2004-04-13": ["Saloni Kumar"],
+      "2001-09-09": ["Manal Raval"],
+      "2001-10-21": ["Sejal Trivedi"],
+      "2003-06-27": ["Rejal Bhagat"],
+      "1999-03-25": ["Zeeshan Siddiqui"],
+      "2001-07-02": ["Khemchand Meena"],
+      "2002-09-01": ["Astha Verma"],
+      "2003-10-06": ["Harmin Mody"],
+      "2002-12-10": ["Kushagra Kumar"],
+      "2004-06-24": ["Diksha Raj"],
+      "2004-12-04": ["Mahak Verma"],
+      "2001-05-31": ["Varsha"],
+      "2004-11-19": ["Shruti Banthia"],
+      "2002-08-06": ["Kashish Agrawal"],
+      "2003-05-12": ["Vipul Singla"],
+      "2004-06-22": ["Hitesh Dinkar Bharambe"],
+      "2004-07-31": ["Archana Jat"],
+      "2004-07-22": ["Kajal Somani"],
+      "1998-12-15": ["Rifa Shereef"],
+      "2005-03-12": ["Raina Chakraborty"],
+      "2000-09-03": ["Praisy"],
+      "2004-12-12": ["Priyanka Thakur"],
+      "2004-10-10": ["Priyanshu Avi"],
+      "2002-03-19": ["Ashwani Kumar Singh"],
+      "2003-03-29": ["Arpit Garg"],
+      "2001-01-02": ["Henna"],
+      "1999-11-16": ["Jatin Kasaudhan"],
+      "1996-10-30": ["Sparsh Yadav"]
+      // More entries can be added here after processing complete dataset
+    };
+
+    const months = ["January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December"];
+
+    function generateCalendar(year) {
+      const calendar = document.getElementById("calendar");
+      for (let m = 0; m < 12; m++) {
+        const date = new Date(year, m, 1);
+        const daysInMonth = new Date(year, m + 1, 0).getDate();
+
+        const monthBox = document.createElement("div");
+        monthBox.className = "bg-white rounded-2xl shadow-md p-4 flex flex-col items-center hover:shadow-lg transition-all duration-300";
+
+        const monthTitle = document.createElement("h2");
+        monthTitle.className = "text-xl font-semibold text-blue-700 mb-4";
+        monthTitle.innerText = months[m];
+        monthBox.appendChild(monthTitle);
+
+        const daysGrid = document.createElement("div");
+        daysGrid.className = "grid grid-cols-7 gap-2 w-full text-center text-sm text-gray-700";
+
+        for (let d = 1; d <= daysInMonth; d++) {
+          const fullDate = `${year}-${(m+1).toString().padStart(2,'0')}-${d.toString().padStart(2,'0')}`;
+          const dayCell = document.createElement("div");
+          dayCell.className = "relative day p-2 rounded-full transition-all duration-200";
+
+          if (birthdays[fullDate]) {
+            dayCell.classList.add("bg-pink-300", "hover:bg-pink-400", "cursor-pointer", "text-white", "font-bold");
+
+            const tooltip = document.createElement("div");
+            tooltip.className = "tooltip";
+            tooltip.innerText = birthdays[fullDate].join(", ");
+            dayCell.appendChild(tooltip);
+          } else {
+            dayCell.classList.add("hover:bg-gray-200");
+          }
+
+          dayCell.innerText = d;
+          daysGrid.appendChild(dayCell);
+        }
+
+        monthBox.appendChild(daysGrid);
+        calendar.appendChild(monthBox);
+      }
+    }
+
+    generateCalendar(2004); // Render birthdays based on a sample year
+  </script>
+</body>
+</html>
